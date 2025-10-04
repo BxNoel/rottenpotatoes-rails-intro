@@ -6,6 +6,7 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  #HERE IS WHERE WE DEFINED INDEX
   def index
     # for the checkboxes in the view
     @all_ratings = Movie.all_ratings
@@ -18,9 +19,13 @@ class MoviesController < ApplicationController
         # first visit OR user submitted with nothing checked → show all & check all
         @all_ratings
       end
-  
+
+    allowed_sorts = %w[title release_date]
+    @sort_by = allowed_sorts.include?(params[:sort_by]) ? params[:sort_by] : nil
+
     # movies to display
     @movies = Movie.with_ratings(@ratings_to_show)
+    @movies = @movies.order(@sort_by => :asc ) if @sort_by.present?
   end
 
   def new

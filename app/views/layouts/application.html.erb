@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+      <!-- Stylesheets & Scripts -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+
     <title>Rotten Potatoes!</title>
 
     <%= form_tag movies_path, method: :get, id: 'ratings_form', local: true do %>
@@ -16,13 +22,21 @@
         <% end %>
         <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary ml-2' %>
       </div>
+
+      <div>
+        <label class="form-label me-2" for="sort_by">Sort by:</label>
+        <%= select_tag :sort_by,
+                      options_for_select([["Title", "title"],
+                                          ["Release date", "release_date"]],
+                                          @sort_by),
+                      id:    "sort_by",
+                      class: "form-select d-inline w-auto" %>
+      </div>
+      
     <% end %>
 
-    <!-- Stylesheets & Scripts -->
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-          crossorigin="anonymous">
+    
+
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
