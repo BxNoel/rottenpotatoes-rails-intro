@@ -7,7 +7,20 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    # for the checkboxes in the view
+    @all_ratings = Movie.all_ratings
+  
+    # which ratings should be checked/shown
+    @ratings_to_show =
+      if params[:ratings].present?
+        params[:ratings].keys
+      else
+        # first visit OR user submitted with nothing checked → show all & check all
+        @all_ratings
+      end
+  
+    # movies to display
+    @movies = Movie.with_ratings(@ratings_to_show)
   end
 
   def new

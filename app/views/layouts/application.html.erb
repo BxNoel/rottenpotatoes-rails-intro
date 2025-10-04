@@ -3,19 +3,43 @@
 <html>
   <head>
     <title>Rotten Potatoes!</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <%= stylesheet_link_tag 'application', 'media' => 'all' %>
+
+    <%= form_tag movies_path, method: :get, id: 'ratings_form', local: true do %>
+      <div class="mb-3">
+        <strong>Include:</strong>
+        <% @all_ratings.each do |rating| %>
+          <div class="form-check form-check-inline">
+            <%= check_box_tag "ratings[#{rating}]", "1", @ratings_to_show.include?(rating),
+                class: 'form-check-input' %>
+            <%= label_tag "ratings[#{rating}]", rating, class: 'form-check-label' %>
+          </div>
+        <% end %>
+        <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary ml-2' %>
+      </div>
+    <% end %>
+
+    <!-- Stylesheets & Scripts -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
+
   <body>
-    <%# These classes come from the Bootstrap CSS framework. %>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg bg-primary text-white mb-3">
-      <h1 class="title">Rotten Potatoes!</h1>
+      <h1 class="title m-2">Rotten Potatoes!</h1>
     </nav>
+
+    <!-- Page Content -->
     <div class="container">
-      <%# Render "flash" messages in our application. This loads _flash.erb %>
+      <%# Render "flash" messages (loads _flash.erb) %>
       <%= render 'layouts/flash' %>
+
       <main id="main">
         <%= yield %>
       </main>
